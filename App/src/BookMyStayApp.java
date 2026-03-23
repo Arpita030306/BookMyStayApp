@@ -5,46 +5,48 @@ public class BookMyStayApp {
 
     public static void main(String[] args) {
 
-        // UC1 - Welcome Message
         System.out.println("=======================================");
         System.out.println("        WELCOME TO BOOK MY STAY        ");
         System.out.println("=======================================");
 
-        // UC2 + UC3 - Centralized Room Inventory
-        Map<String, Integer> roomInventory = new HashMap<>();
+        // Inventory
+        Map<String, Integer> inventory = new HashMap<>();
+        inventory.put("Single Room", 10);
+        inventory.put("Double Room", 0);
+        inventory.put("Deluxe Room", 5);
+        inventory.put("Suite", 2);
 
-        roomInventory.put("Single Room", 10);
-        roomInventory.put("Double Room", 8);
-        roomInventory.put("Deluxe Room", 5);
-        roomInventory.put("Suite", 2);
+        // Room details
+        Map<String, Room> roomDetails = new HashMap<>();
+        roomDetails.put("Single Room", new Room("Single Room", 1000, "1 Bed, AC"));
+        roomDetails.put("Double Room", new Room("Double Room", 2000, "2 Beds, AC"));
+        roomDetails.put("Deluxe Room", new Room("Deluxe Room", 3000, "King Bed, AC, TV"));
+        roomDetails.put("Suite", new Room("Suite", 5000, "Luxury, WiFi, TV"));
 
-        System.out.println("\nCurrent Room Availability:");
-        System.out.println("----------------------------");
+        // UC4 Search
+        searchAvailableRooms(inventory, roomDetails);
+    }
 
-        for (Map.Entry<String, Integer> room : roomInventory.entrySet()) {
-            System.out.println(room.getKey() + " : " + room.getValue() + " rooms available");
-        }
+    public static void searchAvailableRooms(Map<String, Integer> inventory,
+                                            Map<String, Room> roomDetails) {
 
-        System.out.println("\nBooking a Double Room...");
+        System.out.println("\nAvailable Rooms:");
+        System.out.println("-----------------------------------");
 
-        String roomType = "Double Room";
+        for (String type : inventory.keySet()) {
 
-        // UC3 - Booking logic
-        if (roomInventory.containsKey(roomType) && roomInventory.get(roomType) > 0) {
+            int available = inventory.get(type);
 
-            int remainingRooms = roomInventory.get(roomType) - 1;
-            roomInventory.put(roomType, remainingRooms);
+            if (available > 0 && roomDetails.containsKey(type)) {
 
-            System.out.println("Booking successful!");
-        } else {
-            System.out.println("Sorry! Room not available.");
-        }
+                Room room = roomDetails.get(type);
 
-        System.out.println("\nUpdated Room Availability:");
-        System.out.println("----------------------------");
-
-        for (Map.Entry<String, Integer> room : roomInventory.entrySet()) {
-            System.out.println(room.getKey() + " : " + room.getValue() + " rooms available");
+                System.out.println("Room Type : " + room.getType());
+                System.out.println("Price     : ₹" + room.getPrice());
+                System.out.println("Amenities : " + room.getAmenities());
+                System.out.println("Available : " + available);
+                System.out.println("-----------------------------------");
+            }
         }
     }
 }
