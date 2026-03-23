@@ -19,7 +19,7 @@ class Reservation {
     }
 }
 
-public class UseCase5BookingRequestQueue {
+public class BookMyStayApp {
 
     public static void main(String[] args) {
 
@@ -39,7 +39,7 @@ public class UseCase5BookingRequestQueue {
         System.out.println("\nBooking Requests Added to Queue:\n");
 
         // Display queue (FIFO order)
-        for (Reservationgit  r : bookingQueue) {
+        for (Reservation r : bookingQueue) {
             System.out.println("Guest: " + r.getGuestName() +
                     " | Requested Room: " + r.getRoomType());
         }
