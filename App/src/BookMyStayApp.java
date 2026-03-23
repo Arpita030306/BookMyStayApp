@@ -1,52 +1,50 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+// Reservation class (represents booking request)
+class Reservation {
+    private String guestName;
+    private String roomType;
+
+    public Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
+    }
+
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+}
 
 public class BookMyStayApp {
 
     public static void main(String[] args) {
 
         System.out.println("=======================================");
-        System.out.println("        WELCOME TO BOOK MY STAY        ");
+        System.out.println("   BOOKING REQUEST QUEUE (UC5) ");
         System.out.println("=======================================");
 
-        // Inventory
-        Map<String, Integer> inventory = new HashMap<>();
-        inventory.put("Single Room", 10);
-        inventory.put("Double Room", 0);
-        inventory.put("Deluxe Room", 5);
-        inventory.put("Suite", 2);
+        // Queue for booking requests (FIFO)
+        Queue<Reservation> bookingQueue = new LinkedList<>();
 
-        // Room details
-        Map<String, Room> roomDetails = new HashMap<>();
-        roomDetails.put("Single Room", new Room("Single Room", 1000, "1 Bed, AC"));
-        roomDetails.put("Double Room", new Room("Double Room", 2000, "2 Beds, AC"));
-        roomDetails.put("Deluxe Room", new Room("Deluxe Room", 3000, "King Bed, AC, TV"));
-        roomDetails.put("Suite", new Room("Suite", 5000, "Luxury, WiFi, TV"));
+        // Adding booking requests (no allocation here)
+        bookingQueue.add(new Reservation("Arpita", "Single Room"));
+        bookingQueue.add(new Reservation("Rahul", "Double Room"));
+        bookingQueue.add(new Reservation("Sneha", "Deluxe Room"));
+        bookingQueue.add(new Reservation("Amit", "Suite"));
 
-        // UC4 Search
-        searchAvailableRooms(inventory, roomDetails);
-    }
+        System.out.println("\nBooking Requests Added to Queue:\n");
 
-    public static void searchAvailableRooms(Map<String, Integer> inventory,
-                                            Map<String, Room> roomDetails) {
-
-        System.out.println("\nAvailable Rooms:");
-        System.out.println("-----------------------------------");
-
-        for (String type : inventory.keySet()) {
-
-            int available = inventory.get(type);
-
-            if (available > 0 && roomDetails.containsKey(type)) {
-
-                Room room = roomDetails.get(type);
-
-                System.out.println("Room Type : " + room.getType());
-                System.out.println("Price     : ₹" + room.getPrice());
-                System.out.println("Amenities : " + room.getAmenities());
-                System.out.println("Available : " + available);
-                System.out.println("-----------------------------------");
-            }
+        // Display queue (FIFO order)
+        for (Reservation r : bookingQueue) {
+            System.out.println("Guest: " + r.getGuestName() +
+                    " | Requested Room: " + r.getRoomType());
         }
+
+        System.out.println("\n(All requests are stored in arrival order)");
+        System.out.println("No rooms allocated yet (Read-only queue)");
     }
 }
